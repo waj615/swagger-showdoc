@@ -247,7 +247,7 @@
                     showBg();
                     var formData = new FormData();
                     formData.append("files",files1);
-                    var url = "/updateShowDoc/"+showDoc_url+"/"+api_key+"/"+api_token+"/"+swaggerUiUrl;
+                    var url = "/updateShowDoc?showDoc_url="+showDoc_url+"&api_key="+api_key+"&api_token="+api_token+"&swaggerUiUrl="+swaggerUiUrl;
                     this.$http.post(url,formData,{headers: { 'Content-Type': 'multipart/form-data' }}).then(response => {
                         var p = "<p class=\"close\"><a onclick=\"closeBg();\" rel=\"nofollow\" href=\"#\" rel=\"external nofollow\" rel=\"external nofollow\" >关闭</a></p>"
                         $("#dialog").text(response.bodyText);

@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
 import java.io.IOException;
 
 @Slf4j
@@ -36,14 +38,14 @@ public class ApidocController {
      * @param multipartFile 用于生成文档的原始文件
      * @return
      */
-    @PostMapping("/updateShowDoc/{showDoc_url}/{api_key}/{api_token}/{swaggerUiUrl}")
-    public ResponseEntity<String> updateShowDoc(@PathVariable("showDoc_url") String showDocUrl,
-                                                @PathVariable("api_key") String apiKey,
-                                                @PathVariable("api_token") String apiToken,
-                                                @PathVariable("swaggerUiUrl") String swaggerUiUrl,
-                                                @RequestParam("files") MultipartFile multipartFile) {
+    @PostMapping(value = "/updateShowDoc")
+    public ResponseEntity<String> updateShowDoc(@RequestParam("showDoc_url") String showDocUrl,
+                                                @RequestParam("api_key") String apiKey,
+                                                @RequestParam("api_token") String apiToken,
+                                                @RequestParam("swaggerUiUrl") String swaggerUiUrl,
+                                                @Context MultipartHttpServletRequest multipartFile) {
         try {
-            byte[] bytes = multipartFile.getBytes();
+            byte[] bytes = multipartFile.getFile(("files")).getBytes();
             Swagger swagger = new Swagger20Parser().parse(new String(bytes,"UTF-8"));
             SwaggerUtils.updateToShowDoc(showDocUrl,apiKey,apiToken,swagger,swaggerUiUrl);
             return ResponseEntity.ok("同步成功!");
