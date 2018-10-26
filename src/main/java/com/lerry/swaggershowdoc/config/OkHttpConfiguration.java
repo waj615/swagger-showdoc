@@ -3,6 +3,8 @@ package com.lerry.swaggershowdoc.config;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,7 +19,8 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.TimeUnit;
 
-@EnableAutoConfiguration
+@Configuration
+@ConditionalOnProperty(prefix = "swagger", name = "enabled", havingValue = "true")
 public class OkHttpConfiguration {
     @Bean
     public OkHttpClient okHttpClient() {
