@@ -23,7 +23,6 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 @ConditionalOnProperty(prefix = "swagger", name = "enabled", havingValue = "true")
-@ComponentScan({"com.lerry.swaggershowdoc"})
 public class OkHttpConfiguration {
     @Bean
     public OkHttpClient okHttpClient() {
