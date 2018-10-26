@@ -16,8 +16,11 @@ import java.util.Map;
 @Component
 public class OkHttpUtil {
 
-    @Autowired
     private OkHttpClient okHttpClient;
+
+    public OkHttpUtil(OkHttpClient okHttpClient){
+        this.okHttpClient = okHttpClient;
+    }
 
     /**
      * get

@@ -14,26 +14,19 @@ import io.swagger.models.properties.ObjectProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.OkHttpClient;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
-@Component
 public class SwaggerUtils {
 
 
-    private static OkHttpUtil okHttpUtil;
-
-    @Autowired
-    public void setOkHttpUtil(OkHttpUtil okHttpUtil) {
-        SwaggerUtils.okHttpUtil = okHttpUtil;
-    }
+    private static OkHttpUtil okHttpUtil = new OkHttpUtil(new OkHttpClient());
 
     private static Swagger2MarkupConfig config;
 

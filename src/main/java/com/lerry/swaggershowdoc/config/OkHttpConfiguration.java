@@ -36,7 +36,7 @@ public class OkHttpConfiguration {
     }
     @Bean
     public OkHttpUtil okHttpUtil(){
-        return new OkHttpUtil();
+        return new OkHttpUtil(okHttpClient());
     }
 
     @Bean
