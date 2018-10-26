@@ -67,6 +67,10 @@
             <artifactId>swagger-parser</artifactId>
             <version>1.0.39</version>
         </dependency>
+        <dependency>
+            <groupId>cn.vpclub</groupId>
+            <artifactId>spring-boot-starter-swagger</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
