@@ -13,6 +13,7 @@ import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.ObjectProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
+import io.swagger.parser.Swagger20Parser;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import org.apache.commons.collections.CollectionUtils;
@@ -450,5 +451,41 @@ public class SwaggerUtils {
          */
         sendToShowDoc(showDocApiUrl,apiKey,apiToken,"","","安全",SwaggerUtils.securityDocumentGenerateMd(swagger),"");
 
+    }
+
+    /**
+     * 更新文档到ShowDoc
+     * @param showDocUrl showDoc地址
+     * @param apiKey
+     * @param apiToken
+     * @param swaggerJsonContent
+     */
+    public static void updateToShowDoc(String showDocUrl,String apiKey, String apiToken, String  swaggerJsonContent,String swaggerUiUrl) {
+        Swagger swagger = null;
+        try {
+            swagger = new Swagger20Parser().parse(new String(swaggerJsonContent.getBytes(),"UTF-8"));
+            updateToShowDoc(showDocUrl,apiKey,apiToken,swagger,swaggerUiUrl);
+        }
+        catch (Exception e){
+            log.error("error is :{}",e);
+        }
+    }
+
+    /**
+     * 更新文档到ShowDoc
+     * @param showDocUrl showDoc地址
+     * @param apiKey
+     * @param apiToken
+     * @param swaggerJsonContent
+     */
+    public static void updateToShowDoc(String showDocUrl,String apiKey, String apiToken, String  swaggerJsonContent) {
+        Swagger swagger = null;
+        try {
+            swagger = new Swagger20Parser().parse(new String(swaggerJsonContent.getBytes(),"UTF-8"));
+            updateToShowDoc(showDocUrl,apiKey,apiToken,swagger,null);
+        }
+        catch (Exception e){
+            log.error("error is :{}",e);
+        }
     }
 }
