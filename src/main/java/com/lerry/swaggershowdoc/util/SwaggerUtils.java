@@ -1,7 +1,5 @@
 package com.lerry.swaggershowdoc.util;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lerry.swaggershowdoc.swagger.XforcceSwagger2MarkupConverter;
 import io.github.swagger2markup.Language;
 import io.github.swagger2markup.Swagger2MarkupConfig;
@@ -15,17 +13,13 @@ import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.ObjectProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
-import io.swagger.parser.SwaggerParser;
-import io.swagger.util.Json;
-import io.swagger.util.Yaml;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -435,15 +429,16 @@ public class SwaggerUtils {
 
         List<Tag> tags = swagger.getTags();
         Map<String, Path> paths = swagger.getPaths();
-
-        tags.forEach( tag -> {
-            List<Path> showDocPath = new ArrayList<>();
-            paths.forEach((k,v) ->{
-                findApiByTag(v, tag, showDocPath);
-                doShowDoc(showDocApiUrl,v,tag,swagger,k,apiKey,apiToken,swaggerUiUrl);
+        if (CollectionUtils.isNotEmpty(tags) ){
+            tags.forEach( tag -> {
+                List<Path> showDocPath = new ArrayList<>();
+                paths.forEach((k,v) ->{
+                    findApiByTag(v, tag, showDocPath);
+                    doShowDoc(showDocApiUrl,v,tag,swagger,k,apiKey,apiToken,swaggerUiUrl);
+                });
+                showDocMap.put(tag.getDescription(),showDocPath);
             });
-            showDocMap.put(tag.getDescription(),showDocPath);
-        });
+        }
 
         /**
          * 数据模型

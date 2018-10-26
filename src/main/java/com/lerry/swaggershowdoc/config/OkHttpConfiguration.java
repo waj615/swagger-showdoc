@@ -1,11 +1,13 @@
 package com.lerry.swaggershowdoc.config;
 
+import com.lerry.swaggershowdoc.util.OkHttpUtil;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import javax.net.ssl.SSLContext;
@@ -21,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 @ConditionalOnProperty(prefix = "swagger", name = "enabled", havingValue = "true")
+@ComponentScan({"com.lerry.swaggershowdoc"})
 public class OkHttpConfiguration {
     @Bean
     public OkHttpClient okHttpClient() {
@@ -31,6 +34,10 @@ public class OkHttpConfiguration {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30,TimeUnit.SECONDS)
                 .build();
+    }
+    @Bean
+    public OkHttpUtil okHttpUtil(){
+        return new OkHttpUtil();
     }
 
     @Bean
